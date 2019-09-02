@@ -1,0 +1,192 @@
+﻿create table Pengguna (
+id_pengguna varchar2(10) not null,
+nama varchar2(30)not null,
+email varchar2(50) not null,
+gender char,
+constraint Pengguna_pk primary key (id_pengguna)
+);
+
+CREATE TABLE ADMIN_ (
+    id_admin VARCHAR2(10),
+    nama VARCHAR2(50),
+    noTelp VARCHAR2(12),
+    CONSTRAINT admins_pk PRIMARY KEY (id_admin)
+);
+
+create table Buku(
+id_buku varchar2(10) not null enable,
+judul varchar2(50),
+penulis varchar2(30),
+penerbit varchar2(30),
+kategori varchar2(30),
+sinopsis varchar2(1000),
+constraint Buku_pk primary key (id_buku) 
+);
+
+alter table buku add stok number;
+
+create table Peminjaman (
+id_peminjaman varchar2(10),
+id_pengguna varchar2(10),
+id_buku varchar2(10),
+tanggal_pinjam date,
+batas_pinjam date,
+tanggal_kembali date,
+denda number,
+constraint Peminjaman_pk primary key (id_peminjaman),
+constraint Peminjaman_fk1 foreign key (id_pengguna) references Pengguna (id_pengguna)on delete cascade,
+constraint Peminjaman_fk2 foreign key (id_buku) references Buku (id_buku) on delete cascade
+);
+
+CREATE TABLE Perpustakaan (
+id_informasi varchar2(10) not null,
+judul varchar2(100) not null,
+tanggal date,
+deskripsi varchar2(500),
+constraint Perpustakaan_pk primary key (id_informasi)
+);
+
+create table Diakses (
+id_pengguna varchar2(10) not null,
+id_informasi varchar2(10) not null,
+constraint Diakses_fk1 foreign key (id_pengguna) references Pengguna(id_pengguna) on delete cascade,
+constraint Diakses_fk2 foreign key (id_informasi) references Perpustakaan(id_informasi) on delete cascade
+);
+
+
+create table Dikelola (
+id_admin varchar2 (10) not null,
+id_buku varchar (10) not null,
+constraint Dikelola_fk1 foreign key (id_admin) references Admin_ (id_admin) on delete cascade,
+constraint Dikelola_fk2 foreign key (id_buku) references Buku (id_buku) on delete cascade
+);
+
+alter session set nls_date_format ='dd-MM-yyyy';
+
+insert into Pengguna values ('PNG2123243','Valeria Arnia','valarnia@gmail.com','P'); 
+insert into Pengguna values ('PNG1232561','Muhammad Fahri','muhfahri@gmail.com','L');
+insert into Pengguna values ('PNG5632312','Fatwa Anjani','fatwanaksoleh@gmail.com','P'); 
+insert into Pengguna values ('PNG2123243','Muhammad Rosyid ','muh_rosyid@gmail.com','L'); 
+insert into Pengguna values ('PNG2242149','Audrey Laila','laila_au@gmail.com','P'); 
+insert into Pengguna values ('PNG1222521','Inggrit Yessi','Inggrisyess@gmail.com','P');
+insert into Pengguna values ('PNG5678390','Angga Ardiansyah','angga_ar56@gmail.com','L');
+insert into Pengguna values ('PNG7854902','Ananda Kartika Sari','ananda_kartika@gmail.com','P'); 
+insert into Pengguna values ('PNG4165273','Amatus Reisya ','amatus_rey@gmail.co.id','P');
+insert into Pengguna values ('PNG7893787','Rizky Anastasya','rizky_anastasya@gmail.com','P'); 
+
+INSERT INTO ADMIN_ VALUES ('AD001', 'Mawar Alya', '081234564321');
+INSERT INTO ADMIN_ VALUES ('AD002', 'Melati Putri', '082113432111');
+INSERT INTO ADMIN_ VALUES ('AD003', 'Danuar Alifio', '081333521123');
+INSERT INTO ADMIN_ VALUES ('AD004', 'Arif Tirta', '089644666121');
+INSERT INTO ADMIN_ VALUES ('AD005', 'Alvian Putra', '089622999676');
+INSERT INTO ADMIN_ VALUES ('AD006', 'Sarah Widodo', '081123442533');
+INSERT INTO ADMIN_ VALUES ('AD007', 'Farah Doni', '082232443565');
+INSERT INTO ADMIN_ VALUES ('AD008', 'Toni W. D.', '081211333232');
+INSERT INTO ADMIN_ VALUES ('AD009', 'Evan P. K.', '083241555432');
+INSERT INTO ADMIN_ VALUES ('AD010', 'Namira Triani', '089632214431');
+
+insert into Buku values ('SC85436109','Calculus','James Stewart','Salemba Teknika','Sosial Sains','Kalkulus Thomas Edisi ke-13 Jilid 1 ini ditujukan bagi mahasiswa jurusan matematika, teknik, dan sains. Kedua jilid buku ini dirancang untuk kuliah kalkulus tiga atau empat semester.
+
+
+Kalkulus Thomas Edisi ke-13 ini mengukuhkan dominasi yang telah dirintis edisi-edisi sebelumnya yang terkenal melalui penjelasan yang terperinci, pemilihan contoh soal yang cermat, dan ilustrasi yang bagus, serta soal-soal latihan yang ekstensif. Soal-soal dalam buku ini selalu dikembangkan, dimutakhirkan, dan disempurnakan pada setiap pergantian edisi demi meningkatkan kompetensi teknis penggunanya. Hass dan Weir sebagai penulis pendamping ikut menyempurnakan buku ini agar tetap sesuai dengan kebutuhan mahasiswa saat ini.');
+
+insert into Buku values('CM28456098', 'Plant VS Zombie: Petualangan Sang Pemberani','Xiao Jiangnan', 'mc!','Komik','Demi membuktikan bahwa dirinya bukan penakut, Wall-nut bersedia mencoba mesin waktu ciptaan Torchwood dan tiba di periode Trias! Di sana, entah bagaimana dia berhasil menyelamatkan kawanan Eoraptor dari para Herrerasaurus. Karena dianggap pahlawan, Wall-nut jadi tidak mau pulang ke masanya! Namun, serangan itu belum selesai… Apa Wall-nut si penakut benar-benar bisa jadi berani dan mengalahkan lawannya? Ayo ikuti petualangan para karakter Plants vs Zombies di dunia dinosaurus yang menakjubkan!');
+
+insert into Buku values ('NV93634281','Rampokan Jawa dan Silebes','Peter Van Dongen','Gramedia Pustaka Utama','Novel','RAMPOKAN 1946. Indonesia baru saja merdeka. Ratusan relawan dari Belanda kembali ke Indonesia dengan semangat patriotisme untuk mempertahankan harga diri bangsa. Dua di antaranya adalah Johan Knevel dan Erik Verhagen, yang lahir di Hindia Belanda dan pulang ke negeri itu dengan benak penuh angan-angan dan ilusi. Johan memimpikan kembalinya “tempo doeloe”, surga masa kanak-kanak, dan Ninih, pengasuhnya. Namun Erik lalu tenggelam ditelan ombak dan Johan pun dihantui rasa bersalah. Ia lantas memakai identitas Erik dan pergi ke Makassar, ke tanah kelahirannya. Karena Erik komunis, tentara Belanda pun memburunya. Penceritaan roman sejarah dan psikologis tentang kehilangan masa lalu dan identitas ini disampaikan dengan tradisi adu macan di Jawa, yaitu Rampokan. Bencanalah bagi negeri apabila macan, simbol kejahatan dan Belanda penjajah, bisa lolos.');
+
+insert into Buku values ('NV93840193','Cerita Mamah Muda: Yang Ketiga','Niken Terate, Donna Widjajanto','Gramedia Pustaka Utama','Novel','Jatuh cinta itu indahnya berdua. Menghabiskan waktu berdua, tertawa berdua, berbagi mimpi berdua, seakan-akan dunia milik berdua. Semua kebahagiaan milik berdua. Namun, ada kalanya cinta dimiliki bertiga. Saat cinta bukan lagi milik berdua, maka kisahnya berubah seketika. Tawa lenyap menjadi air mata, mimpi berganti wujud menjadi sakit hati, dan bahagia tiba-tiba menjadi derita. Kumpulan cerita ini berisi enam kisah cinta yang tidak lagi milik berdua karya enam pengarang yang juga mamah muda.');
+
+insert into Buku values ('AG06345310','Jangan Nikah Dulu','Hanny Dewanti','Qanita','Agama','STOP!
+Jangan Nikah Dulu
+Kita perlu tahu …
+
+Nikah itu bukan seperti pacaran; suka, ayo jalan ... nggak suka, ya udahan.
+
+
+Nikah itu bukan seperti main rumah-rumahan, yang kalau bosan bisa ditinggal pulang, terus besok main lagi.
+
+
+Nikah itu bukan keinginan, tapi kesiapan. 
+
+
+Nikah itu bukan karena disuruh atau ingin, tapi karena panggilan jiwa.
+
+Nikah itu bukan karena ingin menutupi aib keluarga, tapi karena kesungguhan dan niat yang tulus.
+
+Pastikan kamu telah berpikir matang-matang sebelum memutuskan untuk menikah. Karena jika tidak, hanya kesedihan yang akan kau dapatkan.');
+insert into Buku values ('CM81530900','Why? Drone','Yaerimdang','Alex Median Komputindo','Komik','Menurut para ahli drone adalah salah satu benda yang berpengaruh besar pada perubahan dunia. Sebuah perusahaan IT mempresentasikan rencana mereka melakukan pengiriman dalam waktu 30 menit menggunakan drone, dan perusahaan lainnya mendeklarasikan penggunaan drone untuk membuat area internet di hutan belantara yang tidak ada sinyal. Ada juga tempat di mana orang akan membuat drone transportasi. Kalau begitu drone adalah benda produk eksklusif dari negara-negara atau perusahaan tersebut? Tidak. Karena sekarang bisa kita temui dengan mudah orang-orang yang menerbangkan drone untuk hobi. Tapi apa alasan orang-orang ini hanya memperhatikan drone? Padahal sudah ada kendaraan terbang seperti pesawat dan helikopter yang lebih dulu dibuat, ‘kan? Itu karena fungsi drone. Jangkauan penggunaan drone tidak terbatas, tergantung pada komponen dan alat yang ditambahkan.');
+
+insert into Buku values ('TR07765199','Travel Hacks East Asia','Leo Daphne','Alex Media Komputindo','Travel','Buku ini bukanlah tentang `saya yang sudah traveling` melainkan `Anda yang (akan) traveling`! Benua Asia yang luas memang menarik jika dibedah satu per satu. Bahkan satu buku tidak akan sanggup menampung cerita keelokannya. Maka setelah Anda membaca Travel Hacks South East Asia serta menjelajahi daratan tersebut, kini waktunya kita bergeser ke Asia Timur. Saya menyajikan 4 negara, 24 destinasi, dan 121 informasi tentang benua ini yang bisa mendorong Anda untuk mengeksplorasinya.');
+
+insert into Buku values ('SC00014326','Asal Mula','Neil Tyson,Donald Goldsmith','Kepustakaan Populer Gramedia','Sosial Sains','Manusia berusaha mencari tahu asal mula dirinya dan segalanya sejak dulu. Penelitian sains telah mengungkapkan bahwa asal mula manusia bukan hanya dari Bumi, melainkan juga bintang-bintang dan alam semesta. Kisah asal mula kita merentang sampai awal waktu serta kelahiran ruang dan seluruh zat. Asal Mula menceritakan bagaimana terjadinya alam semsta, bintang-bintang, planet-planet, dan kehidupan berdasarkan temuan-temuan sains, yang menunjukan betapa megahnya kosmos dan bagaimana kedudukan kita di dalamnya.');
+
+insert into Buku values('KM77713245','Kamus Kanji N3','Tjhin Thian Shiang','Gakushudo','Kamus','Kamus ini sangat berguna bagi warga belajar bahasa jepang yang mempelajari huruf kanji tingkat menengah. Dilengkapi dengan cara tulis dan jumlah goresannya, cara baca Onyomi dan Kunyomi, juga contoh kata berikut artinya. Bentuknya yang mungil dan praktis sangat memudahkan untuk dibawa dan dipelajari kapan dan dimana saja, serta sangat membantu bagi warga belajar yang mendapat kesulitan dalam mempelajari kanji.');
+
+insert into Buku values ('PS88814232','Cerdas Sebelum Lulus','A. Satria','Alex Media Komputindo','Psikologi','Cerdas Sebelum Lulus adalah ‘Suplemen Pelajar’ yang memotivasi siswa/siswi untuk mencapai kecerdasan sosial dalam hal-hal yang kurang/belum/tidak tersentuh oleh sistem pendidikan formal. Buku ini mengajak pelajar untuk menggunakan ketajaman berpikir dalam menghadapai masalah sosial di dalam maupun di luar sekolah. Beberapa fenomena yang dibahas antara lain: sampah, pertemanan, utang, lalu lintas, sampai urusan kuliner. A. Satria berbagi ‘asam garam’ kehidupan yang seharusnya sudah dikecap para pelajar sebelum mereka lulus dari sekolah. Mengajak mereka untuk cerdas sebelum lulus.');
+
+update buku set stok=20 where id_buku='SC85436109';
+update buku set stok=25 where id_buku='CM28456098';
+update buku set stok=30 where id_buku='NV93634281';
+update buku set stok=10 where id_buku='NV93840193';
+update buku set stok=50 where id_buku='AG06345310';
+update buku set stok=40 where id_buku='CM81530900';
+update buku set stok=15 where id_buku='TR07765199';
+update buku set stok=18 where id_buku='SC00014326';
+update buku set stok=20 where id_buku='KM77713245';
+update buku set stok=35 where id_buku='PS88814232';
+
+insert into peminjaman values ('IP00001', 'PNG2123243', 'SC85436109', '21-07-2019', '28-07-2019', '30-07-2019', 2000);
+insert into peminjaman values ('IP00002', 'PNG2123243', 'NV93634281', '22-07-2019', '29-07-2019', '30-07-2019', 1000);
+insert into peminjaman values ('IP00003', 'PNG5632312', 'TR07765199', '20-07-2019', '27-07-2019', '27-07-2019', null);
+insert into peminjaman values ('IP00004', 'PNG5632312', 'TR07765199', '19-07-2019', '26-07-2019', '26-07-2019', null);
+insert into peminjaman values ('IP00005', 'PNG1232561', 'NV93840193', '20-07-2019', '27-07-2019', '27-07-2019', null);
+insert into peminjaman values ('IP00006', 'PNG1232561', 'SC85436109', '18-07-2019', '25-07-2019', '25-07-2019', null);
+insert into peminjaman values ('IP00007', 'PNG5678390', 'AG06345310', '15-07-2019', '22-07-2019', '22-07-2019', null);
+insert into peminjaman values ('IP00008', 'PNG4165273', 'NV93840193', '14-07-2019', '21-07-2019', '21-07-2019', null);
+insert into peminjaman values ('IP00009', 'PNG7893787', 'AG06345310', '10-07-2019', '17-07-2019', '21-07-2019', 4000);
+insert into peminjaman values ('IP00010', 'PNG2242149', 'SC85436109', '11-07-2019', '18-07-2019', '18-07-2019', null);
+
+insert into Perpustakaan values ('INFO546732', 'Lomba Bercerita Referensi Buku', '15-08-2019', 'Dalam rangka ikut memeriahkan Hari Pendidikan Nasional dan Hari Buku Nasional, maka UPT Perpustakaan Universitas Sebelas Maret Surakarta akan mengadakan "Lomba Bercerita Referensi Buku" yang bertema hari pendidikan nasional.' );
+insert into Perpustakaan values ('INF6772961','Brawijaya Essay Competition (BEC) 2019','27-10-2019','Yang ditunggu-tunggu, akhirnya datang juga. Kegiatan ini merupakan lomba kepenulisan esai ilmiah yang ditujukan bagi seluruh mahasiswa aktif D3/D4/S1 di Indonesia.
+BEC 2019 adalah lomba esai nasional yang menjadi wadah perjuangan dalam menuangkan pemikiran kritis dan inovatif bagi para mahasiswa Indonesia.
+Pada tahun ini, Brawijaya Essay Competition hadir dengan tema: Aktualisasi Pemuda dalam Menghadapi Persaingan Global Menyongsong Indonesia Emas 2045');
+insert into Perpustakaan values ('INFO000003','Lomba Artikel Ilmiah dan Poster Smart MNM Day UI 2019 Untuk Mahasiswa','19-09-2019','Smart MNM (melallurgi and materials) Day adalah sebuah perlombaan artikel ilmiah dan poster yang diselenggarakan oleh Departemen Metallurgi dan Materian Universitas Indonesia untuk kalian semua mahasiswa dan mahasiswi aktif jurusan metallurgi dan material dari seluruh perguruan tinggi di wilayah indonesia. Adapun informasi lomba terbaru smart mnm day ui ini bertemakan "Enhancing National Economic Growth by Advances in Material Research in Eco-based Processes and Design');
+insert into Perpustakaan values('INFO000004','pertamina photo contest region 5 2019','08-12-2019','Ayo ceritakan pengalaman kalian menggunakan Produk Pertamina untuk kehidupan harian kalian dengan foto kece + keren serta caption yg menarik tentang apa yang menjadi sumber energi sobat untuk menjalani kehidupan sehari-hari!
+
+Kaitkan dengan produk Pertamina dan berikan Hashtag #EnergiHarianku dan raih kesempatan untuk memenangkan hadiah total 4.5 Juta untuk 3 orang pemenang!');
+insert into Perpustakaan values ('INFO000005','Lomba Karya Tulis Ilmiah Nasional (LKTIN) 2019 Universitas Lambung Mangkurat Banjarmasin', '13-11-2019', 'Hallo Mahasiswa-Mahasiswi se-Indonesia
+
+Ada kabar baik nih untuk kalian para Saintis Muda yang penuh inovasi. Kami dari Himpunan Mahasiswa Pendidikan Fisika Universitas Lambung Mangkurat Banjarmasin dengan bangga mempersembahkan rangkaian acara kegiatan kami yakni “Lomba Karya Tulis Nasional” untuk Mahasiswa se-Indonesia  yang bertemakan “Penerapan IPTEK di era revolusi industry 4.0 untuk mewujudkan generasi yang berdaya saing”.');
+
+alter table perpustakaan add id_admin varchar2(10);
+alter table perpustakaan add foreign key (id_admin) references admin_(id_admin) on delete cascade;
+
+update perpustakaan set id_admin='AD001' where id_informasi='INFO000003';
+update perpustakaan set id_admin='AD002' where id_informasi='INFO000004';
+update perpustakaan set id_admin='AD009' where id_informasi='INFO000005';
+update perpustakaan set id_admin='AD010' where id_informasi='INFO546732';
+update perpustakaan set id_admin='AD003' where id_informasi='INF6772961';
+
+insert into Dikelola values ('AD001','TR07765199');
+insert into Dikelola values('AD001','KM77713245');
+insert into Dikelola values('AD002','CM81530900');
+insert into Dikelola values('AD003','PS88814232');
+insert into Dikelola values('AD010','KM77713245');
+insert into Dikelola values('AD003','KM77713245');
+insert into Dikelola values('AD009','PS88814232');
+insert into Dikelola values('AD009','TR07765199');
+insert into Dikelola values('AD003','CM81530900');
+insert into Dikelola values('AD004','AG06345310');
+
+insert into diakses values ('PNG2123243','INFO000003');
+insert into diakses values('PNG1232561','INFO000003');
+insert into diakses values ('PNG4165273','INFO000004');
+insert into diakses values('PNG7893787','INFO000004');
+insert into diakses values('PNG2123243','INFO000005');
+insert into diakses values('PNG2242149','INFO546732');
+insert into diakses values('PNG7893787','INFO546732');
+insert into diakses values('PNG7854902','INFO000004');
+insert into diakses values('PNG4165273','INFO000003');
+insert into diakses values('PNG4165273','INFO546732');
+
+select * from tab;
